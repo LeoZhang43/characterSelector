@@ -8,6 +8,13 @@ function Products() {
     filtered_products,
   } = useProductsContext()
   console.log(filtered_products)
+  if(filtered_products.length < 1){
+    return(
+      <h5>
+        Sorry, no products matched your search...
+      </h5>
+    )
+  }
   return (
     <Wrapper>
       {filtered_products.map((product) => {
@@ -21,9 +28,9 @@ function Products() {
               <h5>gender:{gender}</h5>
               <h5>species:{species}</h5>
               <h5>status:{status}</h5>
-              {/* <Link to={`/products/${id}`} className='btn'>
-                details
-              </Link> */}
+              <Link to={`/products/${id}`} className='btn'>
+                <h3>details</h3>
+              </Link>
             </div>
           </article>
         )

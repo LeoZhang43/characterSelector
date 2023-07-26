@@ -43,6 +43,24 @@ const products_reducer = (state, action) => {
         sort:action.payload,
       }
     }
+    if(action.type === 'GET_SINGLE_PRODUCT_BEGIN'){
+      return{
+        ...state,
+      }
+    }
+    if(action.type === 'GET_SINGLE_PRODUCT_SUCCESS'){
+      return {
+        ...state,
+        single_product_success: true,
+        single_product: action.payload,
+      }
+    }
+    if(action.type === 'GET_SINGLE_PRODUCT_ERROR'){
+      return{
+        ...state, 
+        single_product_success: false,
+      }
+    }
     if(action.type === 'SORT_PRODUCTS'){
       const { sort, filtered_products } = state
       let tempProducts = [...filtered_products]
@@ -62,6 +80,69 @@ const products_reducer = (state, action) => {
           return b.name.localeCompare(a.name)
         })
       }
+      return{
+        ...state,
+        filtered_products: tempProducts,
+      }
+    }
+    if(action.type === 'UPDATE_FILTERS'){
+      const{name, value} = action.payload;
+      return {
+        ...state,
+        filters:{...state.filters,[name]:value}
+      }
+    }
+    if(action.type === 'UPDATE_FILTERS'){
+      const{name, value} = action.payload;
+      return {
+        ...state,
+        filters:{...state.filters,[name]:value}
+      }
+    }
+    if(action.type === 'CLEAR_FILTERS'){
+      return{
+        ...state,
+        filters: {
+          text: '',
+          species: 'all',
+          status: 'all',
+          gender: 'all',
+          episode:'all',
+          location: 'all',
+          type: 'all',
+        },
+      }
+    }
+    if(action.type === 'FILTER_PRODUCTS'){
+      const { products } = state
+      const { text, species, status, gender, episode, location, type } = state.filters
+      let tempProducts = [...products]
+      if(text){
+        tempProducts = tempProducts.filter((product) => {
+          return product.name.toLowerCase().startsWith(text)
+        })
+      }
+      if(species !== 'all'){
+        tempProducts = tempProducts.filter(product => product.species === species)
+      }
+      if(status !== 'all'){
+        tempProducts = tempProducts.filter(product => product.status === status)
+      }
+      if(gender !== 'all'){
+        tempProducts = tempProducts.filter(product => product.gender === gender)
+      }
+      if(type !== 'all'){
+        tempProducts = tempProducts.filter(product => product.type === type)
+      }
+      if(location !== 'all'){
+        tempProducts = tempProducts.filter(product => product.location.name === location)
+      }
+      if(episode !== 'all'){
+        tempProducts = tempProducts.filter(product => {
+          return product.episode.find((c) => c === episode)
+        })
+      }
+      
       return{
         ...state,
         filtered_products: tempProducts,
