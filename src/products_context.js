@@ -80,8 +80,10 @@ export const ProductsProvider = ({ children }) => {
   }, [state.currentPage])
   useEffect(() =>{
     dispatch({type: 'SORT_PRODUCTS'})
+  },[state.sort])
+  useEffect(() =>{
     dispatch({type: 'FILTER_PRODUCTS'})
-  },[state.sort, state.filters])
+  },[state.filters])
   return (
     <ProductsContext.Provider value={{
       ...state,
